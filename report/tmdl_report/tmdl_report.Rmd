@@ -129,6 +129,12 @@ First, second, and third level headings are defined by `#`, `##`, and `###` resp
 
 # Introduction
 
+States are required to identify water bodies that do not meet designated water
+uses under Section 303(d) of the Clean Water Act. Total Maximum Daily Loads (TMDLs)
+must be developed for pollutants causing the impairment. TMDLs designate an
+allowable daily allowable pollutant load that can be discharged to the waterbody
+and continue to meet criteria for designated uses. 
+
 # Methods
 
 
