@@ -210,6 +210,10 @@ plot(x, sin(x), type = "l", main = "", xlab = "", ylab = "", col = "#CC4300")
 
 <!---BLOCK_LANDSCAPE_STOP--->
 
+```{r modparams, fig.cap="Models...", fig.alt="Alternative text for screen readers", fig.width=6, fig.height=4, fig.dpi=300}
+knitr::include_graphics("../../figures/fig5.png")
+```
+
 # Math
 
 Wrap variables or math in a single `$` to show math inline. For example, $\varepsilon \sim \mathrm{N}(0,1)$. Standalone equations are wrapped with `$$`.

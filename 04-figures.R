@@ -359,7 +359,8 @@ p4d <- df |>
 
   geom_text(aes(x = watershed_model,
                 y = lake_model,
-                label = after_stat(count)),
+                label = after_stat(count),
+                color = after_stat(count) < 4),
             family = "Manrope Bold",
             stat = "bin_2d") +
 
@@ -368,6 +369,7 @@ p4d <- df |>
                    expand = expansion(mult = c(0,0))) +
   scale_y_discrete("Receiving Body Model",
                    expand = expansion(mult = c(0,0))) +
+  scale_color_manual(guide = FALSE, values = c("black", "white")) +
   coord_equal() +
   labs(subtitle = "D: Model combinations") +
   theme_mps_noto(base_family = "Manrope Regular") +
@@ -397,7 +399,7 @@ ggsave("fig4.png",
 ### models and target combinations
 ## to do: shorten some of the model names, combine LSPC and HSPF to one model since underlying runoff processes are the same model.
 
-df |>
+p5 <- df |>
   mutate(endpoint_parameter = case_when(
     pollutant_name %in% c("CHLOROPHYLL-A", "DISSOLVED OXYGEN", "TURBIDITY") ~ pollutant_name,
     parameters_name == "TROPHIC STATE INDEX (TSI)" ~ "CHLOROPHYLL-A",
@@ -417,16 +419,23 @@ df |>
   distinct(asessment_unit_identifier, model_set, endpoint_parameter) |>
   ggplot() +
   geom_bin_2d(aes(endpoint_parameter, model_set), na.rm = TRUE) +
+  geom_text(aes(x = endpoint_parameter,
+                y = model_set,
+                label = after_stat(count),
+                color = after_stat(count) < 6),
+            family = "Manrope Bold",
+            stat = "bin_2d") +
   scale_fill_viridis_c() +
   scale_x_discrete("Endpoint Parameter",
                    expand = expansion(mult = c(0,0))) +
-  scale_y_discrete("Models",
+  scale_y_discrete("Model",
                    expand = expansion(mult = c(0,0))) +
+  scale_color_manual(guide = FALSE, values = c("black", "white")) +
   coord_equal() +
   theme_mps_noto(base_family = "Manrope Regular") +
   theme(axis.text.y = element_text(hjust = 1,
                                    size = rel(0.6)),
-        axis.text.x = element_text(size = rel(0.8),
+        axis.text.x = element_text(size = rel(0.6),
                                    angle = 45,
                                    hjust = 1,
                                    vjust = 1),
@@ -434,3 +443,11 @@ df |>
         panel.grid.major.y = element_blank(),
         legend.position = "none",
         plot.subtitle = element_text(size = rel(0.7)))
+
+ggsave("fig5.png",
+       p5,
+       device = ragg::agg_png,
+       path = "figures",
+       width = 6,
+       height = 4,
+       units = "in")
