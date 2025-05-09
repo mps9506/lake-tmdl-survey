@@ -142,6 +142,7 @@ and continue to meet criteria for designated uses.
 # Results
 
 
+
 # Tables
 
 ```{r}
@@ -167,11 +168,23 @@ ft
 
 # Figures
 
-We can embed and cross-reference plots (Figure \@ref(fig:pressure)).
+We can embed and cross-reference plots (Figure \@ref(fig:states)).
 
-```{r pressure, fig.cap="pressure dataset", fig.alt="Alternative text for screen readers"}
-plot(pressure)
+```{r states, fig.cap=" (A) Number of Lake TMDL documents per state in EPA regions 4 and 6 (January 2020 through December 2024; (B) Distinct lake assessment units covered by TMDLs per state in EPA regions 4 and 6 (January 2020 through December 2024.", fig.alt="Alternative text for screen readers", fig.width=6, fig.height=3, fig.dpi=300}
+knitr::include_graphics("../../figures/fig1.png")
 ```
+
+```{r lakesize, fig.cap=" (A) Histogram of lake surface area (acres) and (B) histogram of lake watershed area (acres).", fig.alt="Alternative text for screen readers", fig.width=6, fig.height=3, fig.dpi=300}
+knitr::include_graphics("../../figures/fig2.png")
+```
+
+
+```{r params, fig.cap=" (A) TMDL Allocation parameter frequency and (B) target parameter frequency.", fig.alt="Alternative text for screen readers", fig.width=6, fig.height=3, fig.dpi=300}
+knitr::include_graphics("../../figures/fig3.png")
+```
+
+
+
 
 ```{r}
 ## leave in, end word document section
