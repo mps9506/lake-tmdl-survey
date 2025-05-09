@@ -186,6 +186,7 @@ knitr::include_graphics("../../figures/fig3.png")
 
 
 
+
 ```{r}
 ## leave in, end word document section
 ## after table of abbreviations
@@ -193,6 +194,12 @@ block_section(prop_section(type = "nextPage"))
 ```
 
 <!---BLOCK_LANDSCAPE_START--->
+
+
+
+```{r models, fig.cap="Models...", fig.alt="Alternative text for screen readers", fig.width=10, fig.height=5, fig.dpi=300, out.width="100%"}
+knitr::include_graphics("../../figures/fig4.png")
+```
 
 # Landscape Section
 

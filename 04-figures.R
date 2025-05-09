@@ -255,6 +255,10 @@ ggsave("fig3.png",
 p4a <- df |>
   distinct(asessment_unit_identifier, empirical_model) |>
   filter(!is.na(empirical_model)) |>
+  mutate(empirical_model = case_when(
+    empirical_model == "Multiple Regression" ~ "Regression",
+    .default = empirical_model
+  )) |>
   mutate(empirical_model = fct_infreq(empirical_model)) |>
   ggplot() +
   geom_bar(aes(y = empirical_model),
@@ -269,19 +273,24 @@ p4a <- df |>
   scale_x_continuous("",
                      expand = expansion(mult = c(0, 0.1))) +
   scale_y_discrete("") +
-  labs(subtitle = "Empirical models") +
+  labs(subtitle = "A: Empirical models") +
   coord_fixed(xlim = c(0,15)) +
   theme_mps_noto(base_family = "Manrope Regular") +
   theme(axis.text.y = element_text(hjust = 1,
                                    size = rel(0.6)),
         axis.text.x = element_text(size = rel(0.8)),
         axis.title = element_text(size = rel(0.7)),
-        panel.grid.major.y = element_blank())
+        panel.grid.major.y = element_blank(),
+        plot.subtitle = element_text(size = rel(0.7)))
 
 
 p4b <- df |>
   distinct(asessment_unit_identifier, watershed_model) |>
   filter(!is.na(watershed_model)) |>
+  mutate(watershed_model = case_when(
+    watershed_model == "Curve Number Method" ~ "CN",
+    .default = watershed_model
+  )) |>
   mutate(watershed_model = fct_infreq(watershed_model)) |>
   ggplot() +
   geom_bar(aes(y = watershed_model),
@@ -296,14 +305,15 @@ p4b <- df |>
   scale_x_continuous("",
                      expand = expansion(mult = c(0, 0.1))) +
   scale_y_discrete("Models") +
-  labs(subtitle = "Watershed models") +
+  labs(subtitle = "B: Watershed models") +
   coord_fixed(xlim = c(0,15)) +
   theme_mps_noto(base_family = "Manrope Regular") +
   theme(axis.text.y = element_text(hjust = 1,
                                    size = rel(0.6)),
         axis.text.x = element_text(size = rel(0.8)),
         axis.title = element_text(size = rel(0.7)),
-        panel.grid.major.y = element_blank())
+        panel.grid.major.y = element_blank(),
+        plot.subtitle = element_text(size = rel(0.7)))
 
 p4c <- df |>
   distinct(asessment_unit_identifier, lake_model) |>
@@ -323,13 +333,14 @@ p4c <- df |>
   scale_x_continuous("Assessment Unit Count",
                      expand = expansion(mult = c(0, 0.1))) +
   scale_y_discrete("") +
-  labs(subtitle = "Receiving body models") +
+  labs(subtitle = "C: Receiving body models") +
   theme_mps_noto(base_family = "Manrope Regular") +
   theme(axis.text.y = element_text(hjust = 1,
                                    size = rel(0.6)),
         axis.text.x = element_text(size = rel(0.8)),
         axis.title = element_text(size = rel(0.7)),
-        panel.grid.major.y = element_blank())
+        panel.grid.major.y = element_blank(),
+        plot.subtitle = element_text(size = rel(0.7)))
 
 
 
@@ -337,11 +348,80 @@ p4c <- df |>
 ### commonly linked watersehd and receiving models
 
 p4d <- df |>
+  mutate(watershed_model = case_when(
+    watershed_model == "Curve Number Method" ~ "CN",
+    .default = watershed_model
+  )) |>
   distinct(asessment_unit_identifier, watershed_model, lake_model) |>
   filter(!is.na(watershed_model) | !is.na(lake_model)) |>
   ggplot() +
   geom_bin2d(aes(watershed_model, lake_model)) +
+
+  geom_text(aes(x = watershed_model,
+                y = lake_model,
+                label = after_stat(count)),
+            family = "Manrope Bold",
+            stat = "bin_2d") +
+
   scale_fill_viridis_c() +
+  scale_x_discrete("Watershed Model",
+                   expand = expansion(mult = c(0,0))) +
+  scale_y_discrete("Receiving Body Model",
+                   expand = expansion(mult = c(0,0))) +
+  coord_equal() +
+  labs(subtitle = "D: Model combinations") +
+  theme_mps_noto(base_family = "Manrope Regular") +
+  theme(axis.text.y = element_text(hjust = 1,
+                                   size = rel(0.6)),
+        axis.text.x = element_text(size = rel(0.8),
+                                   angle = 45,
+                                   hjust = 1,
+                                   vjust = 1),
+        axis.title = element_text(size = rel(0.7)),
+        panel.grid.major.y = element_blank(),
+        legend.position = "none",
+        plot.subtitle = element_text(size = rel(0.7)))
+
+p4d
+p4 <- (p4a / p4b / p4c) | p4d
+p4
+ggsave("fig4.png",
+       p4,
+       device = ragg::agg_png,
+       path = "figures",
+       width = 10,
+       height = 5,
+       units = "in")
+
+
+### models and target combinations
+## to do: shorten some of the model names, combine LSPC and HSPF to one model since underlying runoff processes are the same model.
+
+df |>
+  mutate(endpoint_parameter = case_when(
+    pollutant_name %in% c("CHLOROPHYLL-A", "DISSOLVED OXYGEN", "TURBIDITY") ~ pollutant_name,
+    parameters_name == "TROPHIC STATE INDEX (TSI)" ~ "CHLOROPHYLL-A",
+    organization_name.x == "New Mexico" ~ pollutant_name,
+    .default = parameters_name
+  )) |>
+  mutate(endpoint_parameter = case_when(
+    endpoint_parameter %in% c("FECAL COLIFORM", "ESCHERICHIA COLI (E. COLI)") ~ "INDICATOR BACTERIA",
+    .default = endpoint_parameter
+  )) |>
+  mutate(model_set = case_when(
+    !is.na(empirical_model) ~ empirical_model,
+    is.na(watershed_model) ~ lake_model,
+    is.na(lake_model) ~ watershed_model,
+    .default = str_c(watershed_model, lake_model, sep = "+")
+  )) |>
+  distinct(asessment_unit_identifier, model_set, endpoint_parameter) |>
+  ggplot() +
+  geom_bin_2d(aes(endpoint_parameter, model_set), na.rm = TRUE) +
+  scale_fill_viridis_c() +
+  scale_x_discrete("Endpoint Parameter",
+                   expand = expansion(mult = c(0,0))) +
+  scale_y_discrete("Models",
+                   expand = expansion(mult = c(0,0))) +
   coord_equal() +
   theme_mps_noto(base_family = "Manrope Regular") +
   theme(axis.text.y = element_text(hjust = 1,
@@ -351,15 +431,6 @@ p4d <- df |>
                                    hjust = 1,
                                    vjust = 1),
         axis.title = element_text(size = rel(0.7)),
-        panel.grid.major.y = element_blank())
-
-
-p4 <- p4a / p4b / p4c
-
-ggsave("fig4.png",
-       p4,
-       device = ragg::agg_png,
-       path = "figures",
-       width = 5,
-       height = 5,
-       units = "in")
+        panel.grid.major.y = element_blank(),
+        legend.position = "none",
+        plot.subtitle = element_text(size = rel(0.7)))
