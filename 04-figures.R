@@ -451,3 +451,21 @@ ggsave("fig5.png",
        width = 6,
        height = 4,
        units = "in")
+
+
+## states and models
+df
+
+df |>
+  mutate(organization_name.x = fct_recode(organization_name.x,
+                                          "Georgia" = "Georgia Environmental Protection Division")) |>
+  mutate(model_set = case_when(
+    !is.na(empirical_model) ~ empirical_model,
+    is.na(watershed_model) ~ lake_model,
+    is.na(lake_model) ~ watershed_model,
+    .default = str_c(watershed_model, lake_model, sep = "+")
+  )) |>
+  distinct(organization_name.x, model_set, action_identifier, asessment_unit_identifier) |>
+  ggplot() +
+  geom_bin_2d(aes(organization_name.x, model_set))
+
