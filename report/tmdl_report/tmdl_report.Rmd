@@ -153,6 +153,18 @@ Currently, 11 lakes in Texas have TMDLs and corresponding Implementation Plans [
 
 ... something about the number of impaired lakes in texas and causes of impairments ...
 
+301,419 acres impaired for "General Use", 192,005 acres or 63% of impaired acres list excessive algae as the impairment reason.
+
+14,768 acres are impaired for "aquatic Life Use" with 13,354 or 90% of those acres listing low dissolved oxygen as the impairment reason.
+
+```{r general, fig.cap="General Use impariment classification for reservoirs in Texas.", fig.alt="Alternative text for screen readers", fig.width=7, fig.height=4, fig.dpi=300}
+knitr::include_graphics("../../figures/fig6.png")
+```
+
+```{r general2, fig.cap="Impairment cause for reservoirs as impaired for general use.", fig.alt="Alternative text for screen readers", fig.width=7, fig.height=4, fig.dpi=300}
+knitr::include_graphics("../../figures/fig7.png")
+```
+
 Unlike the tiered approach identified by the Bacteria TMDL Task Force,
 a unified approach for addressing impairments specifically in lakes has not been developed.
 Given the diversity of potential parameter impairments, impairment sources, and
