@@ -495,14 +495,14 @@ p6 <- tceq |>
   mutate(classification = forcats::fct_reorder(classification, prop)) |>
   mutate(classification = forcats::fct_recode(classification,
                                               "not assessed" = "not_assessed",
-                                              "insufficient information" = "use_insufficient_information",
+                                              "insufficient\ninformation" = "use_insufficient_information",
                                               "not supporting" = "not_supporting",
                                               "fully supporting" = "fully_supporting")) |>
   arrange(prop) |>
   mutate(midpoint = 1 - (cumsum(prop) - prop/2)/sum(prop)) |>
   ggplot(aes(use_name, prop, fill = classification)) +
-  geom_col(width = 0.4) +
-  geom_text_repel(aes(y = midpoint, x = 1.2,
+  geom_col(width = 0.1) +
+  geom_text_repel(aes(y = midpoint, x = 1,
                       label = paste0(classification, "\n", round(prop*100, 1), "%"),
                       color = classification),
                   size = 3,
@@ -513,10 +513,12 @@ p6 <- tceq |>
                   family = "Manrope",
                   fontface = "bold") +
   theme_mps_noto(base_family = "Manrope Regular") +
+  scale_x_discrete(expand = expansion(mult = (c(0.15,0.25)))) +
   scale_y_continuous("Percent of Total Reservoir Acres",
                      expand = expansion(mult = 0),
                      labels = scales::label_percent()) +
   guides(fill = guide_legend(override.aes = aes(color = NA))) +
+  labs(caption = "General Use") +
   coord_cartesian(clip = "off") +
   theme(panel.grid.major.y = element_blank(),
         plot.subtitle = element_text(size = rel(0.7)),
@@ -525,6 +527,7 @@ p6 <- tceq |>
         axis.text.x = element_blank(),
         axis.ticks.length.x = rel(0))
 
+p6
 
 ggsave("fig6.png",
        p6,
@@ -548,7 +551,11 @@ p7 <- tceq |>
   filter(classification == "not_supporting") |>
   mutate(percent_cause = cause/acres) |> ## this looks correct based
   filter(!is.na(percent_cause)) |>
+  mutate(parameter_group = stringr::str_to_lower(parameter_group)) |>
   mutate(parameter_group = fct_reorder(parameter_group, percent_cause)) |>
+  mutate(parameter_group = fct_recode(parameter_group,
+                                      "salinty/TDS/\nchlorides/sulfates" = "salinity/total dissolved solids/chlorides/sulfates",
+                                      "ph/acidity/\ncaustic conditions" = "ph/acidity/caustic conditions")) |>
   arrange(percent_cause) |>
   mutate(midpoint = 1 - (cumsum(percent_cause) - percent_cause/2)/sum(percent_cause)) |>
   ggplot() +
@@ -570,6 +577,7 @@ p7 <- tceq |>
   scale_x_discrete(expand = expansion(mult = (c(0.15,0.25)))) +
   guides(fill = guide_legend(override.aes = aes(color = NA))) +
   coord_cartesian(clip = "off") +
+  labs(caption = "General Use") +
   theme_mps_noto(base_family = "Manrope Regular") +
   theme(panel.grid.major.y = element_blank(),
         plot.subtitle = element_text(size = rel(0.7)),
@@ -578,7 +586,7 @@ p7 <- tceq |>
         axis.text.x = element_blank(),
         axis.ticks.length.x = rel(0))
 
-
+p7
 
 ggsave("fig7.png",
        p7,
@@ -589,35 +597,119 @@ ggsave("fig7.png",
        units = "in")
 
 
-    tidyr::pivot_longer(parameter_insufficient_information:meeting_criteria, names_to = "classification", values_to = "acres") |>
-    glimpse()
-  group_by(parameter_group) |>
+
+
+
+p8 <- tceq |>
+  filter(water_type_code == "RESERVOIR", use_name == "Aquatic Life Use") |>
+  select(use_name, fully_supporting, use_insufficient_information, not_assessed, not_supporting) |>
+  tidyr::pivot_longer(fully_supporting:not_supporting, names_to = "classification", values_to = "acres") |>
+  distinct() |>
+  group_by(use_name) |>
   mutate(total = sum(acres, na.rm = TRUE)) |>
   ungroup() |>
   mutate(prop = acres/total) |>
-  ggplot() +
-  geom_col(aes(prop, parameter_group, fill = classification)) +
+  filter(use_name %in% c("Recreation Use", "General Use" , "Fish Consumption Use", "Aquatic Life Use")) |>
+  mutate(classification = forcats::fct_reorder(classification, prop)) |>
+  mutate(classification = forcats::fct_recode(classification,
+                                              "not assessed" = "not_assessed",
+                                              "insufficient\ninformation" = "use_insufficient_information",
+                                              "not supporting" = "not_supporting",
+                                              "fully supporting" = "fully_supporting")) |>
+  arrange(prop) |>
+  mutate(midpoint = 1 - (cumsum(prop) - prop/2)/sum(prop)) |>
+  ggplot(aes(use_name, prop, fill = classification)) +
+  geom_col(width = 0.1) +
+  geom_text_repel(aes(y = midpoint, x = 1,
+                      label = paste0(classification, "\n", round(prop*100, 1), "%"),
+                      color = classification),
+                  size = 3,
+                  nudge_x = 0.4,
+                  direction = "y",
+                  hjust = "right",
+                  segment.curvature = -1e-20,
+                  family = "Manrope",
+                  fontface = "bold") +
+  theme_mps_noto(base_family = "Manrope Regular") +
+  scale_x_discrete(expand = expansion(mult = (c(0.15,0.25)))) +
+  scale_y_continuous("Percent of Total Reservoir Acres",
+                     expand = expansion(mult = 0),
+                     labels = scales::label_percent()) +
+  guides(fill = guide_legend(override.aes = aes(color = NA))) +
+  labs(caption = "Aquatic Life Use") +
+  coord_cartesian(clip = "off") +
+  theme(panel.grid.major.y = element_blank(),
+        plot.subtitle = element_text(size = rel(0.7)),
+        legend.position = "none",
+        axis.title.x = element_blank(),
+        axis.text.x = element_blank(),
+        axis.ticks.length.x = rel(0))
 
 
-tceq |>
+p9 <- p6 + p8 + plot_annotation(tag_levels = "A")
+
+ggsave("fig9.png",
+       p9,
+       device = ragg::agg_png,
+       path = "figures",
+       width = 7,
+       height = 4,
+       units = "in")
+
+
+
+
+
+
+p10 <- tceq |>
   filter(water_type_code == "RESERVOIR", use_name == "Aquatic Life Use") |>
   select(use_name, fully_supporting, use_insufficient_information, not_assessed, not_supporting, parameter_group, parameter_insufficient_information, cause, meeting_criteria, removed) |>
-  glimpse()
-  tidyr::pivot_longer(parameter_insufficient_information:meeting_criteria, names_to = "classification", values_to = "acres") |>
-  group_by(parameter_group) |>
-  mutate(total = sum(acres, na.rm = TRUE)) |>
-  ungroup() |>
-  mutate(prop = acres/total) |>
+  tidyr::pivot_longer(fully_supporting:not_supporting, names_to = "classification", values_to = "acres") |>
+  filter(classification == "not_supporting") |>
+  mutate(percent_cause = cause/acres) |> ## this looks correct based
+  filter(!is.na(percent_cause)) |>
+  mutate(parameter_group = stringr::str_to_lower(parameter_group)) |>
+  mutate(parameter_group = fct_recode(parameter_group,
+                                      "organic enrichment/\noxygen depletion" = "organic enrichment/oxygen depletion")) |>
+  mutate(parameter_group = fct_reorder(parameter_group, percent_cause)) |>
+  arrange(percent_cause) |>
+  mutate(midpoint = 1 - (cumsum(percent_cause) - percent_cause/2)/sum(percent_cause)) |>
   ggplot() +
-  geom_col(aes(prop, parameter_group, fill = classification))
+  geom_col(aes(use_name, y = percent_cause, fill = parameter_group),
+           width = 0.1) +
+  geom_text_repel(aes(y = midpoint, x = 1,
+                      label = paste0(parameter_group, "\n", round(percent_cause*100, 1), "%"),
+                      color = parameter_group),
+                  size = 3,
+                  nudge_x = 0.4,
+                  direction = "y",
+                  hjust = "right",
+                  segment.curvature = -1e-20,
+                  family = "Manrope",
+                  fontface = "bold") +
+  scale_y_continuous("Percent of Impaired Reservoir Acres",
+                     expand = expansion(mult = 0),
+                     labels = scales::label_percent()) +
+  scale_x_discrete(expand = expansion(mult = (c(0.15,0.25)))) +
+  guides(fill = guide_legend(override.aes = aes(color = NA))) +
+  labs(caption = "Aquatic Life Use") +
+  coord_cartesian(clip = "off") +
+  theme_mps_noto(base_family = "Manrope Regular") +
+  theme(panel.grid.major.y = element_blank(),
+        plot.subtitle = element_text(size = rel(0.7)),
+        legend.position = "none",
+        axis.title.x = element_blank(),
+        axis.text.x = element_blank(),
+        axis.ticks.length.x = rel(0))
 
-tceq |>
-  filter(water_type_code == "RESERVOIR", use_name == "Fish Consumption Use") |>
-  select(use_name, fully_supporting, use_insufficient_information, not_assessed, not_supporting, parameter_group, parameter_insufficient_information, cause, meeting_criteria, removed) |>
-  tidyr::pivot_longer(parameter_insufficient_information:meeting_criteria, names_to = "classification", values_to = "acres") |>
-  group_by(parameter_group) |>
-  mutate(total = sum(acres, na.rm = TRUE)) |>
-  ungroup() |>
-  mutate(prop = acres/total) |>
-  ggplot() +
-  geom_col(aes(prop, parameter_group, fill = classification))
+p10
+
+p11 <- p7 + p10 + plot_annotation(tag_levels = "A")
+
+ggsave("fig11.png",
+       p11,
+       device = ragg::agg_png,
+       path = "figures",
+       width = 7,
+       height = 4,
+       units = "in")

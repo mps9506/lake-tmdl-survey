@@ -130,45 +130,77 @@ https://www.tceq.texas.gov/downloads/water-quality/assessment/integrated-report-
 # Introduction
 
 States are required to identify water bodies that do not meet designated water
-uses under Section 303(d) of the Clean Water Act. Total Maximum Daily Loads (TMDLs)
-must be developed for pollutants causing the impairment. TMDLs designate an
-allowable daily allowable pollutant load that can be discharged to the waterbody
-and continue to meet criteria for designated uses. Corresponding TMDL Implementation
-Plans (I-Plans) are developed to identify pollutant load reductions required to
-meet TMDLs and a schedule of implementation of management measures  and control actions 
-that will achieve the required load reductions.
+uses under Section 303(d) of the Clean Water Act. Total Maximum Daily Loads 
+(TMDLs) must be developed for pollutants causing the impairment. 
+TMDLs designate an allowable daily allowable pollutant load that can be 
+discharged to the waterbody and continue to meet criteria for designated uses. 
+Corresponding TMDL Implementation Plans (I-Plans) are developed to identify 
+pollutant load reductions required to meet TMDLs and a schedule for 
+the implementation of management measures (voluntary actions) and control 
+actions (regulated or permitted requirements) that will achieve the required 
+load reductions.
 
 
-Since the mid-2000's addressing recreational impairments caused by excessive fecal indicator bacteria, primarily occuring in streams and rivers, has been the priority for the State of Texas's water quality planning efforts.
-Under this priority the state convened a Bacteria TMDL Task force to provide guidance and consensus among major stakeholders in the planning process for water quality planning approaches [@jonesBacteriaTotalMaximum2009]. 
-The outcomes of this process included a unified approach for prioritizing impaired waterbodies,
-determining sources of impairments, and developing load reductions in an
-efficient and scientifically robust manner.
-These outcomes facilitated the rapid expansion TMDL planning efforts in the state [@schrammTotalMaximumDaily2022].
+Since the mid-2000's addressing recreational impairments caused by excessive 
+fecal indicator bacteria, primarily occurring in streams and rivers, has 
+been the priority for the State of Texas's water quality planning efforts.
+Under this priority, the state convened a Bacteria TMDL Task force to provide 
+guidance and consensus among major stakeholders in the planning process for 
+water quality planning approaches [@jonesBacteriaTotalMaximum2009]. 
+The outcomes of this process included a unified approaches for prioritizing 
+impaired waterbodies, determining sources of impairments, and developing load 
+reductions in an efficient and scientifically robust manner.
+These outcomes facilitated the rapid expansion of TMDL planning efforts in the 
+state [@schrammTotalMaximumDaily2022].
 
-Additional progress in water quality planning will likely require an expanded
-focus beyond recreational impairments in streams and rivers.
+Additional progress towards water quality planning and meeting Clean Water Act 
+requirements will require an expanded focus beyond recreational impairments in 
+streams and rivers.
+As of the 2024 version of the Texas Integrated Report on Water Quality, 301,419 
+acres (19.8% of total acres) of reservoirs are categorized as as impaired for 
+"General Use"; 14,768 acres (1.2% of total reservoir acres) are categorized 
+impaired for "Aquatic Life Use" [@epaAssessmentTotalMaximum2025, Figure \@ref(fig:general)]. 
+Of the reservoir area impaired for "General Use", 192,005 acres (63%) list 
+excessive algae as the reason for impairment (Figure \@ref(fig:general2)A).
+Low dissolved oxygen is listed as the reason for 13,354 (90%) of the 
+reservoir acres impaired for "Aquatic Life Use" (Figure \@ref(fig:general2)B). 
+Currently, 11 lakes in Texas have TMDLs and corresponding Implementation Plans
+and an additional four lakes have Watershed Protection Plans
+[@tceqTrophicClassificationTexas2024]. 
 
-Currently, 11 lakes in Texas have TMDLs and corresponding Implementation Plans [@tceqTrophicClassificationTexas2024]. 
+• Lake O’ the Pines – TMDL Implementation Plan
+• E.V. Spence Reservoir – TMDL Implementation Plan
+• Lake Austin – TMDL Implementation Plan
+• Lake Worth – TMDL Implementation Plan
+• Lake Houston – TMDL Implementation Plan
+• Aquilla Reservoir – TMDL Implementation Plan
+• Mountain Creek Lake – TMDL Implementation Plan
+• Lake Como – TMDL Implementation Plan
+• Fosdic Lake – TMDL Implementation Plan
+• Echo Lake – TMDL Implementation Plan
+• Donna Reservoir – TMDL Implementation Plan
+• Lake Arlington – Watershed Protection Plan
+• Lake Granbury – Watershed Protection Plan
+• Lake Lavon – Watershed Protection Plan
+• Joe Pool Lake – Watershed Protection Plan
+• Bois d’Arc Lake/Lake Bonham – Watershed Protection Plan
 
-... something about the number of impaired lakes in texas and causes of impairments ...
 
-301,419 acres impaired for "General Use", 192,005 acres or 63% of impaired acres list excessive algae as the impairment reason.
-
-14,768 acres are impaired for "aquatic Life Use" with 13,354 or 90% of those acres listing low dissolved oxygen as the impairment reason.
-
-```{r general, fig.cap="General Use impariment classification for reservoirs in Texas.", fig.alt="Alternative text for screen readers", fig.width=7, fig.height=4, fig.dpi=300}
-knitr::include_graphics("../../figures/fig6.png")
+```{r general, fig.cap='Classification status for "general use" (A) and "aquatic life use" (B) in Texas reservoirs by percent of acres [@epaAssessmentTotalMaximum2025].', fig.alt="Alternative text for screen readers", fig.width=7, fig.height=4, fig.dpi=300}
+knitr::include_graphics("../../figures/fig9.png")
 ```
 
-```{r general2, fig.cap="Impairment cause for reservoirs as impaired for general use.", fig.alt="Alternative text for screen readers", fig.width=7, fig.height=4, fig.dpi=300}
-knitr::include_graphics("../../figures/fig7.png")
+```{r general2, fig.cap='Cause of impairment for "general use" (A) and "aquatic life use" (B) impaired Texas reservoirs by percent of impaired acres [@epaAssessmentTotalMaximum2025].', fig.alt="Alternative text for screen readers", fig.width=7, fig.height=4, fig.dpi=300}
+knitr::include_graphics("../../figures/fig11.png")
 ```
+
 
 Unlike the tiered approach identified by the Bacteria TMDL Task Force,
-a unified approach for addressing impairments specifically in lakes has not been developed.
+a unified approach for addressing impairments specifically in lakes has not 
+been developed.
 Given the diversity of potential parameter impairments, impairment sources, and
-expected lake trophic status, a variety of TMDL development approaches are possible. 
+expected lake trophic status, a variety of TMDL development approaches are 
+possible. 
 This report intends to identify and summarize EPA-approved approaches used
 across EPA Regions 4 and 6 in the development of TMDLs in lakes and
 reservoirs. 
@@ -179,19 +211,28 @@ reservoirs.
 # Methods
 
 
-The purpose of this report is to review and summarize methodologies in EPA accepted lake or reservoir TMDLs relevant to Texas.
-We queried the EPA Assessment TMDL Tracking and Implementation System (ATTAINS) database using the R software package, rATTAINS [@schrammRATTAINSAccessEPA2023].
+The purpose of this report is to review and summarize methodologies in EPA 
+accepted lake or reservoir TMDLs relevant to Texas.
+We queried the EPA Assessment TMDL Tracking and Implementation System 
+(ATTAINS) database using the R software package, rATTAINS 
+[@schrammRATTAINSAccessEPA2023].
+<!-- Describe ATTAINS here -->
 rATTAINS facilitates data queries and downloads from the ATTAINS online database
 directly into R.
-In March 2025 we made queries to ATTAINS for all approved TMDLs in the 13 states covered under EPA regions 5 and 6 since January 1, 2020.
-The data returned from the ATTAINS query includes a list of hydrologic assessment units (AUs) covered by each TMDL.
+In March 2025 we made queries to ATTAINS for all approved TMDLs in the 13 
+states covered under EPA regions 5 and 6 since January 1, 2020.
+The data returned from the ATTAINS query includes a list of hydrologic 
+assessment units (AUs) covered by each TMDL.
 Each TMDL can cover one or more hydrologic assessment units (AUs).
-A subsequent query to ATTAINS was made to identify the waterbody type each state assigned to
-the AUs covered by TMDLs.
+A subsequent query to ATTAINS was made to identify the waterbody type each 
+state assigned to the AUs covered by TMDLs.
 Using the data returned by this query, the list of TMDLs was reduced to those
-TMDLs that included AUs identified in ATTAINS as one of, "Lake, Freshwater; Lake; Reservoir; Lake/Reservoir/Pond." 
-ATTAINS also identifies the endpoint parameter that is the cause of the impairment (low DO, high chlorophyll-a, etc.) in each AU and the target load allocation parameter(s) (TN, TP, TSS, etc.) 
-in the TMDL that the waterbody can assimilate without being considered impaired.
+TMDLs that included AUs identified in ATTAINS as one of, "Lake, Freshwater; 
+Lake; Reservoir; Lake/Reservoir/Pond." 
+ATTAINS also identifies the endpoint parameter that is the cause of the 
+impairment (low DO, high chlorophyll-a, etc.) in each AU and the target load 
+allocation parameter(s) (TN, TP, TSS, etc.) in the TMDL that the waterbody can 
+assimilate without being considered impaired.
 The remaining list of TMDLs was further reduced by removing AUs
 that were impaired due to aluminum or temperature.
 *Describe number of TMDLs and states. Add table in Appendix of TMDLs.*
