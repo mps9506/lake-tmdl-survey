@@ -166,24 +166,8 @@ Low dissolved oxygen is listed as the reason for 13,354 (90%) of the
 reservoir acres impaired for "Aquatic Life Use" (Figure \@ref(fig:general2)B). 
 Currently, 11 lakes in Texas have TMDLs and corresponding Implementation Plans
 and an additional four lakes have Watershed Protection Plans
-[@tceqTrophicClassificationTexas2024]. 
+[@tceqTrophicClassificationTexas2024, Table \@ref(tab:lkplans)]. 
 
-• Lake O’ the Pines – TMDL Implementation Plan
-• E.V. Spence Reservoir – TMDL Implementation Plan
-• Lake Austin – TMDL Implementation Plan
-• Lake Worth – TMDL Implementation Plan
-• Lake Houston – TMDL Implementation Plan
-• Aquilla Reservoir – TMDL Implementation Plan
-• Mountain Creek Lake – TMDL Implementation Plan
-• Lake Como – TMDL Implementation Plan
-• Fosdic Lake – TMDL Implementation Plan
-• Echo Lake – TMDL Implementation Plan
-• Donna Reservoir – TMDL Implementation Plan
-• Lake Arlington – Watershed Protection Plan
-• Lake Granbury – Watershed Protection Plan
-• Lake Lavon – Watershed Protection Plan
-• Joe Pool Lake – Watershed Protection Plan
-• Bois d’Arc Lake/Lake Bonham – Watershed Protection Plan
 
 
 ```{r general, fig.cap='Classification status for "general use" (A) and "aquatic life use" (B) in Texas reservoirs by percent of acres [@epaAssessmentTotalMaximum2025].', fig.alt="Alternative text for screen readers", fig.width=7, fig.height=4, fig.dpi=300}
@@ -194,6 +178,66 @@ knitr::include_graphics("../../figures/fig9.png")
 knitr::include_graphics("../../figures/fig11.png")
 ```
 
+
+The [`flextable`](https://davidgohel.github.io/flextable/) package provides additional formatting flexibility when exporting to Word (Table \@ref(tab:lkplans)).
+
+```{r tab.cap='flextable formatted table.', tab.id='lkplans'}
+
+flextable(
+  tibble(Name = c("Lake O’ the Pines",
+                  "E.V. Spence Reservoir",
+                  "Lake Austin",
+                  "Lake Worth",
+                  "Lake Houston",
+                  "Aquilla Reservoir",
+                  "Mountain Creek Lake",
+                  "Lake Como",
+                  "Fosdic Lake",
+                  "Echo Lake",
+                  "Donna Reservoir",
+                  "Lake Arlington",
+                  "Lake Granbury",
+                  "Lake Lavon",
+                  "Joe Pool Lake",
+                  "Bois d’Arc Lake/Lake Bonham"),
+         Action = c(rep("TMDL, I-Plan", 11),
+                    rep("WPP", 5)),
+         Impairment = c("Dissolved Oxygen",
+                        "TDS and Sulfate",
+                        "Dissolved Oxygen",
+                        "Fish Consumption Advisory",
+                        "Indicator Bacteria",
+                        "Atrazine",
+                        "Fish Consumption Advisory",
+                        "Fish Consumption Advisory",
+                        "Fish Consumption Advisory",
+                        "Fish Consumption Advisory",
+                        "Fish Consumption Advisory",
+                        "Chlorophyll-a, Nitrate",
+                        "Indicator Bacteria",
+                        "Indicator Bacteria",
+                        "Nitrate",
+                        "Indicator Bacteria, Nitrate, Total Phosphorus, Chlorophyll-a"),
+         `Target Parameter(s)` = c("Total Phosphorus",
+                                   "Chloride, Sulfate, TDS",
+                                   "Dissolved Oxygen",
+                                   "PCBs",
+                                   "*E. coli*",
+                                   "Atrazine",
+                                   "Chlordane, DDT, DDD, DDE, Dieldrin, Heptachlorepoxide, and PCBs",
+                                   "Chlordane, DDT, Dieldrin, and PCBs",
+                                   "Chlordane, DDT, Dieldrin, and PCBs",
+                                   "PCBs",
+                                   "PCBs",
+                                   "Nutrients",
+                                   "*E. coli*",
+                                   "*E. coli*",
+                                   "TKN and NOx",
+                                   "*E. coli*, Nitrate, Total Phosphorus"))
+  ) |> 
+  set_table_properties(layout = "autofit")
+
+```
 
 Unlike the tiered approach identified by the Bacteria TMDL Task Force,
 a unified approach for addressing impairments specifically in lakes has not 
