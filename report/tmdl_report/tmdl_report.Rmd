@@ -48,6 +48,7 @@ library(dplyr)
 library(stringr)
 library(ggplot2)
 library(readr)
+library(tidyr)
 
 ## this sets our default code chunk options
 knitr::opts_chunk$set(dev = "ragg_png",
@@ -179,9 +180,8 @@ knitr::include_graphics("../../figures/fig11.png")
 ```
 
 
-The [`flextable`](https://davidgohel.github.io/flextable/) package provides additional formatting flexibility when exporting to Word (Table \@ref(tab:lkplans)).
 
-```{r tab.cap='flextable formatted table.', tab.id='lkplans'}
+```{r tab.cap='Texas reservoirs with existing TMDLs or WPPs.', tab.id='lkplans'}
 
 flextable(
   tibble(Name = c("Lake O’ the Pines",
@@ -259,10 +259,10 @@ The purpose of this report is to review and summarize methodologies in EPA
 accepted lake or reservoir TMDLs relevant to Texas.
 We queried the EPA Assessment TMDL Tracking and Implementation System 
 (ATTAINS) database using the R software package, rATTAINS 
-[@schrammRATTAINSAccessEPA2023].
+[@epaAssessmentTotalMaximum2025; @schrammRATTAINSAccessEPA2023].
 <!-- Describe ATTAINS here -->
 rATTAINS facilitates data queries and downloads from the ATTAINS online database
-directly into R.
+directly into R statistical analysis software [@rcoreteamLanguageEnvironmentStatistical2023].
 In March 2025 we made queries to ATTAINS for all approved TMDLs in the 13 
 states covered under EPA regions 5 and 6 since January 1, 2020.
 The data returned from the ATTAINS query includes a list of hydrologic 
@@ -303,25 +303,8 @@ extract relevant information.
 
 # Tables
 
-```{r}
-df <- read_csv("../../data/all_lake_tmdls_docs_edited.csv")
-```
 
 
-This is an example of an unformatted table and how we cross-reference that table ([Table \@ref(tab:mtcars)](#tab:mtcars)).
-
-```{r tab.cap='this is the builtin mtcars data.', tab.id='mtcars'}
-dat <- mtcars
-head(dat, n = 10)
-```
-
-
-The [`flextable`](https://davidgohel.github.io/flextable/) package provides additional formatting flexibility when exporting to Word (Table \@ref(tab:mtcarsflex)).
-
-```{r tab.cap='flextable formatted table.', tab.id='mtcarsflex'}
-ft <- flextable(head(dat, n = 10))
-ft
-```
 
 
 # Figures
@@ -382,6 +365,32 @@ block_section(prop_section(type = "nextPage"))
 # Appendix A {-}
 
 You can add more info, tables, and figures here.
+
+<!---BLOCK_LANDSCAPE_START--->
+
+
+<!-- Can we collapse these au's -->
+
+```{r}
+df <- read_csv("../../data/all_lake_tmdls_docs_edited.csv")
+df |> 
+  distinct(action_identifier, action_name.x, TMDL_date.x, asessment_unit_identifier, document_url) |>
+  pivot_wider(names_from = asessment_unit_identifier, values_from = asessment_unit_identifier) |> 
+  unite(col = "Assessment Units", OK121600010200_00:TN06020002008_1000, sep = ", ", na.rm = TRUE) |> 
+  select("Action ID" = action_identifier,
+         "TMDL Title" = action_name.x,
+         "Acceptance Date" = TMDL_date.x,
+         "Assessment Units" = "Assessment Units",
+         "URL" = document_url) |> 
+  flextable() |> 
+  set_table_properties(layout = "autofit")
+
+  
+```
+
+
+
+<!---BLOCK_LANDSCAPE_STOP--->
 
 ```{r}
 ## leave in, ends word document section
