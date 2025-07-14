@@ -115,18 +115,17 @@ Abbreviations
 ```{r}
 ## leave in, ends word document section
 ## after table of abbreviations
+footer_default <- block_list(fpar(run_word_field(field = "PAGE"),
+                                  fp_p = fp_par(text.align = "center")
+                                  )
+                             )
+## can we move the page number on landscaped pages to portrait orientation?
+footer_side <- block_list(fpar(run_word_field(field = "PAGE"),
+                               fp_p = fp_par(text.align = "left")))
+
 block_section(prop_section(type = "nextPage"))
 ```
 
-# Headings
-
-## Second Level Heading
-
-### Third Level Heading
-
-First, second, and third level headings are defined by `#`, `##`, and `###` respectively.
-
-https://www.tceq.texas.gov/downloads/water-quality/assessment/integrated-report-2024/2024-trophic
 
 # Introduction
 
@@ -222,20 +221,24 @@ flextable(
                                    "Chloride, Sulfate, TDS",
                                    "Dissolved Oxygen",
                                    "PCBs",
-                                   "*E. coli*",
+                                   "E. coli",
                                    "Atrazine",
-                                   "Chlordane, DDT, DDD, DDE, Dieldrin, Heptachlorepoxide, and PCBs",
+                                   "Chlordane, DDT, DDD, DDE, Dieldrin, Heptachlor epoxide, and PCBs",
                                    "Chlordane, DDT, Dieldrin, and PCBs",
                                    "Chlordane, DDT, Dieldrin, and PCBs",
                                    "PCBs",
                                    "PCBs",
                                    "Nutrients",
-                                   "*E. coli*",
-                                   "*E. coli*",
+                                   "E. coli",
+                                   "E. coli",
                                    "TKN and NOx",
-                                   "*E. coli*, Nitrate, Total Phosphorus"))
+                                   "E. coli, Nitrate, Total Phosphorus"))
   ) |> 
-  set_table_properties(layout = "autofit")
+  set_table_properties(layout = "autofit") |> 
+  mk_par(j = "Target Parameter(s)", i = ~`Target Parameter(s)` == "E. coli",
+         value = as_paragraph(as_i("E. coli"))) |> 
+    mk_par(j = "Target Parameter(s)", i = ~`Target Parameter(s)` == "E. coli, Nitrate, Total Phosphorus",
+         value = as_paragraph(as_i("E. coli"), ", Nitrate, Total Phosphorus"))
 
 ```
 
@@ -279,15 +282,19 @@ allocation parameter(s) (TN, TP, TSS, etc.) in the TMDL that the waterbody can
 assimilate without being considered impaired.
 The remaining list of TMDLs was further reduced by removing AUs
 that were impaired due to aluminum or temperature.
-*Describe number of TMDLs and states. Add table in Appendix of TMDLs.*
+In total 27 TMDL documents were identified in the ATTAINS query covering 44 
+distinct assessment units (Figure \@ref(fig:states)). 
+ATTAINS was queried again with the remaining 27 TMDLs to download pdf copies of 
+each EPA accepted TMDL.
+Appendix A includes a table of the TMDLs identified in the query, assessment 
+units covered by each TMDL and provides a link to the TMDL document.
+
 
 ```{r states, fig.cap=" (A) Number of Lake TMDL documents per state in EPA regions 4 and 6 (January 2020 through December 2024; (B) Distinct lake assessment units covered by TMDLs per state in EPA regions 4 and 6 (January 2020 through December 2024.", fig.alt="Alternative text for screen readers", fig.width=6, fig.height=3, fig.dpi=300}
 knitr::include_graphics("../../figures/fig1.png")
 ```
 
-ATTAINS was queried again with the remaining n TMDLs to download pdf copies of 
-each EPA accepted TMDL. These TMDLs were manually reviewed to identify and
-extract relevant information.
+TMDLs were manually reviewed to identify and extract the following information:
 
 - watershed size
 - lake area
@@ -311,7 +318,7 @@ extract relevant information.
 
 We can embed and cross-reference plots (Figure \@ref(fig:states)).
 
-
+<!-- Boxplot might be better here -->
 
 ```{r lakesize, fig.cap=" (A) Histogram of lake surface area (acres) and (B) histogram of lake watershed area (acres).", fig.alt="Alternative text for screen readers", fig.width=6, fig.height=3, fig.dpi=300}
 knitr::include_graphics("../../figures/fig2.png")
@@ -329,7 +336,8 @@ knitr::include_graphics("../../figures/fig3.png")
 ```{r}
 ## leave in, end word document section
 ## after table of abbreviations
-block_section(prop_section(type = "nextPage"))
+block_section(prop_section(type = "nextPage",
+                           footer_default = footer_default))
 ```
 
 <!---BLOCK_LANDSCAPE_START--->
@@ -348,11 +356,15 @@ knitr::include_graphics("../../figures/fig5.png")
 ```
 
 
+```{r}
+## leave in, end word document section
+## after table of abbreviations
+block_section(prop_section(type = "nextPage",
+                           footer_default = footer_default))
+```
+
 # References
 
-
-
-# Bibliography {-}
 
 <div id="refs"></div>
 
@@ -364,12 +376,17 @@ block_section(prop_section(type = "nextPage"))
 
 # Appendix A {-}
 
-You can add more info, tables, and figures here.
+Table of TMDLs retrieved in ATTAINS.
 
+```{r}
+## leave in, end word document section
+## after table of abbreviations
+block_section(prop_section(type = "nextPage"))
+```
 <!---BLOCK_LANDSCAPE_START--->
 
 
-<!-- Can we collapse these au's -->
+<!-- need to format col widths -->
 
 ```{r}
 df <- read_csv("../../data/all_lake_tmdls_docs_edited.csv")
