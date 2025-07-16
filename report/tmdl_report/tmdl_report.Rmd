@@ -294,29 +294,50 @@ units covered by each TMDL and provides a link to the TMDL document.
 knitr::include_graphics("../../figures/fig1.png")
 ```
 
-TMDLs were manually reviewed to identify and extract the following information:
+In order to determine relevance to TMDLs developed in Texas, we manually
+reviewed each TMDL to extract info on lake morphology (lake area, lake volume,
+shoreline length) and watershed size (not all TMDLs had complete information about
+the waterbody). 
+We then recorded information about the approach used to develop 
+the TMDL. 
+We used a simplified typology classifying the approaches as empirical
+or mechanistic, although we understand the some approaches do not cleanly fit
+in either category. 
+We describe empirical approaches as those using observed hydrologic and water 
+quality data to establish loading allocations.
+Mechnistic models on the other hand utilize some process or physically based
+modelling approaches to simulate the landscape and/or hydrologic environment
+to establish responses to various pollutant inputs.
+The specific modeling approaches used in each TMDL and assessment
+unit were also documented (some TMDLs include multiple assessment units and 
+may include different approaches for each assessment unit).
 
-- watershed size
-- lake area
-- shoreline length
-- lake volume
-- model typology (empirical, mechanistic)
-- specific modeling approaches
+
 
 
 # Results
 
 
+The 27 TMDLs covered lakes and reservoirs with a surface area ranging from
+xx to xx acres with a median of 632 acres (Figure \@ref(fig:lakesize)A). 
+Watershed sizes ranged from xx to xx acres with a median of 4,665 acres
+(Figure \@ref(fig:lakesize)B).
+Chlorophyll-a was the most common TMDL endpoint parameter (26 of 44 assessment 
+units, Figure \@ref(fig:params)A), followed by total nitrogen (11 of 44) and 
+total phosphorus (10 of 44). 
+The high relative prevalence of chlorophyll-a, total nitrogen, and total 
+phosphorus targets indicate nutrient enrichment and algal growth have been
+the primary drivers of TMDL development in the southeast regions in recent years.
+Conversely, turbidity (2 of 44 assessment units) and dissolved oxygen (3 of 44) 
+were relatively infrequent in the region.
+This pattern is similar to the impairment patterns for reservoirs in Texas where
+the majority of impaired acres (192,005 acres) are listed due to excessive algae
+while a relatively small area is listed due to low dissolved oxygen 
+(13,354 acres).
+To achieve these endpoints, total phosphorus (32) and total nitrogen (38)
+are by far the most frequently addressed loading parameters 
+(Figure \@ref(fig:params)B).
 
-# Tables
-
-
-
-
-
-# Figures
-
-We can embed and cross-reference plots (Figure \@ref(fig:states)).
 
 <!-- Boxplot might be better here -->
 
@@ -329,6 +350,69 @@ knitr::include_graphics("../../figures/fig2.png")
 knitr::include_graphics("../../figures/fig3.png")
 ```
 
+## Empirical models
+
+Empirical TMDL approaches utilize the statistical properties of measured 
+data to establish relationships between sources and impairment as well as
+establish the load reductions required for attainment.
+Twenty assessment units had TMDLs developed with empirical methods 
+(Figure \@ref(fig:models)).
+Here, we classify load duration curves (LDCs) and multiple regression as 
+empirical models.
+In short, LDCs utilize a frequency distribution approach to determine flow
+exceedance frequency, develop broad linkages between sources and impairments,
+and calculation of allowable loads and load reductions.
+LDCs are described extensively in @epaApproachUsingLoad2007.
+Regression models statistically describe the relationship between one or more
+independent variables and dependent variable.
+Regression model approaches are very flexible and can be applied in many approaches
+to support TMDL development. 
+Load Estimator (LOADEST), Weighted Regression on Time Discharge and Season 
+(WRTDS) and Generalized Additive Models (GAMs) are examples of regression models 
+that use grab samples to quantify annualized stream and river nutrient loadings 
+which can then serve as inputs to models that forecast responses in the 
+receiving water body [@runkelLoadEstimatorLOADEST2004; 
+@hirschWeightedRegressionsTime2010; 
+@beckFourDecadesWater2018; @robsonPredictionSedimentParticulate2015; 
+@bergbuschUnexpectedShiftPhytoplankton2021].
+Furthermore, single lake or regional regressions can be established between 
+normalized nutrient loads or in lake nutrient concentration and chlorophyll-a 
+[@rollelongleyEffectsNutrientLoad2019; @phillipsChlorophyllNutrientRelationships2008]. 
+
+
+Regression models were observed in 15 assessment units and load duration curves
+(LDCs) were observed in five assessment units. 
+Note that LDCs are most appropriate for lotic waters where load allocations can
+be estimated based on the cumulative frequency of daily streamflows and
+in-stream pollutant concentrations.
+The observed LDCs occurred in assessment units that were more geomorphologically
+similar to rivers than to traditional lentic systems and were applied to 
+bacteria impairments presumed to be hydrologically driven, similar to the Lake 
+Houston TMDL in Texas [@tceqSevenTotalMaximum2016].
+
+Regression models were used exclusively in small lakes in Florida and applied 
+to achieve the state's site-specific narrative nutrient 
+criteria using annual chlorophyll-a geometric means as a target.
+Simple linear regressions models were applied to establish relationships between 
+the lakes annual geometric mean concentrations and chlorophyll-a concentrations.
+Multiple regression models using log-transformed annual geometric 
+mean in-lake nutrient concentrations as independent variables and 
+log-transformed in-lake chlorophyll-a concentrations were used to assess the 
+predicted concentration required to achieve the chlorophyll-a endpoint. 
+In some cases, paleolimnological records were used to establish pre-disturbance 
+baseline records.
+The TMDL loadings were then allocated as daily percent load reductions based on 
+the percent difference in current annual geometric mean nutrient concentrations 
+and the regression predicted concentration needed to achieve the chlorophyll-a 
+endpoint.
+While this percent reduction approach is consistent with EPA guidance on TMDL
+development, it is probably most applicable to watersheds dominated by non-point
+sources of nutrients where quantifying and measuring loads and load reductions
+is impractical.
+This approach also requires an assumption that the lake is well mixed and
+sampling points are representative of the entire lake or assessment unit.
+In Texas, many of the assessment units are presumed to be large reservoirs
+where this assumption may not hold.
 
 
 
@@ -354,6 +438,18 @@ knitr::include_graphics("../../figures/fig4.png")
 ```{r modparams, fig.cap="Models...", fig.alt="Alternative text for screen readers", fig.width=6, fig.height=4, fig.dpi=300}
 knitr::include_graphics("../../figures/fig5.png")
 ```
+
+## Mechanistic models
+
+Mechanistic models utilize process or physically based models to simulate
+pollutant transport, uptake, and degradation processes in the environment.
+Model parameters are calibrated and validated using measured data.
+For TMDL applications, landscape or watershed loading models that simulate 
+pollutant deposition and transport processes are often combined with a receiving
+body model that simulates the in-lake pollutant transport and uptake processes.
+@borahWatershedModelsDevelopment2019 and @camachoReceivingWaterQuality2019 
+provide thorough overviews of watershed and water quality models 
+that are useful for TMDL development.
 
 
 ```{r}
