@@ -450,6 +450,42 @@ body model that simulates the in-lake pollutant transport and uptake processes.
 @borahWatershedModelsDevelopment2019 and @camachoReceivingWaterQuality2019 
 provide thorough overviews of watershed and water quality models 
 that are useful for TMDL development.
+Our review found HSPF, PLSM, LSPC, and SWAT watershed models used by TMDLs 
+in the two regions (Figure \@ref(fig:models)).
+
+The NRCS Curve Number (CN) method was also used in a handful of TMDLs.
+The CN method might be better classified as an empirical approach,
+but was included under this section since the CN method and its various
+extensions can be calibrated using similar procedure to traditional process-based
+models.
+In the TMDLs applying the CN method, the CN method was used to estimate
+watershed runoff volume. Regionally developed runoff event mean
+concentrations for nitrogen and phosphorus were multiplied to the runoff volumes
+to develop estimates of total watershed loading.
+This approach is similar to the Spreadsheet Tool for the Estimation
+of Pollutant Load (STEPL) or Pollutant Load Estimation Tool (PLET) 
+used by the US EPA to estimate watershed pollutant loads and
+reductions from BMPs for grant applicants [@tetratechinc.PollutantLoadEstimation2024].
+These loadings served as inputs to a lake eutrophication model.
+This approach is fairly simple but relies on the availability of 
+regionally appropriate nutrient runoff event mean concentrations.
+Due to its simplicity, there are a number of assumptions involved in using the 
+CN method for estimating storm-total runoff that restricts the appropriate 
+usage of this approach.
+For example, the watershed should be less than 2,000 acres and
+contain generally uniform land use, soil and cover [@usdanrcsEstimatingRunoffVolume2021].
+
+HSPF was the most commonly used watershed model identified (6 assessment units, 
+Figure \@ref(fig:models)).  HSPF is a semi-distributed, process based model that
+simulates both hydrology and water quality in urban and rural watersheds. 
+Some of the advantages of HSPF include its flexibility to be run as a static or 
+dynamic model, ability to assess impacts of BMPs, and ease of integration with 
+other models. HSPF is included in EPA's BASINS modeling system compiled to
+assist states with TMDL development. LSPC is largely based on algorithms used in
+HSPF but changes the underlying programming architecture from FORTRAN to C++,
+which has the advantage of utilizing a Microsoft Access database structure and 
+larger spatial and temporal resolutions for modelling larger watersheds.
+LSPC was used with an additional 3 TMDL assessment units. 
 
 
 ```{r}
@@ -458,6 +494,9 @@ that are useful for TMDL development.
 block_section(prop_section(type = "nextPage",
                            footer_default = footer_default))
 ```
+
+# Discussion
+
 
 # References
 
