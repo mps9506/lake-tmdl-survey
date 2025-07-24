@@ -42,6 +42,7 @@ csl: council-of-science-editors-author-date.csl
 library(officer)
 library(officedown)
 library(flextable)
+library(ftExtra)
 library(ragg)
 
 library(dplyr)
@@ -453,7 +454,53 @@ that are useful for TMDL development.
 Our review found HSPF, PLSM, LSPC, and SWAT watershed models used by TMDLs 
 in the two regions (Figure \@ref(fig:models)).
 
-The NRCS Curve Number (CN) method was also used in a handful of TMDLs.
+<!---BLOCK_LANDSCAPE_START--->
+
+```{r}
+tibble(Model = c("Load Duration Curve (LDC)",
+                 "Curve Number (CN)",
+                 "Regression",
+                 "(HSPF)",
+                 "(LSPC)",
+                 "(PLSM)",
+                 "(SWAT)",
+                 "BATHTUB",
+                 "(EFDC)",
+                 "(WASP)",
+                 "(WET)"),
+       `Short Description` = c("filler",
+                               "filler",
+                               "filler",
+                               "filler",
+                               "filler",
+                               "filler",
+                               "filler",
+                               "filler",
+                               "filler",
+                               "filler",
+                               "filler"),
+       Reference = c("@epaApproachUsingLoad2007",
+                     "@usdanrcsEstimatingRunoffVolume2021",
+                     NA,
+                     "@bicknellHydrologicalSimulationProgramFortran1997",
+                     "@tetratechLoadingSimulationProgram2009",
+                     "@adamusEstimatingNonpointSource1995",
+                     "@biegerIntroductionToSWATCompletely2017",
+                     "@walkerBATHTUBVersion612006",
+                     "@tetratechinc.EnvironmentalFluidDynamics2007",
+                     "@woolWASP8Next2020",
+                     "@nielsenIntroducingQWETQGISplugin2021")) |> 
+  flextable::flextable() |>
+  flextable::set_table_properties(layout = "autofit") |> 
+  ftExtra::colformat_md()
+```
+
+<!---BLOCK_LANDSCAPE_STOP--->
+
+
+### Watershed models
+
+The NRCS Curve Number (CN) method was used in a handful of TMDLs.
 The CN method might be better classified as an empirical approach,
 but was included under this section since the CN method and its various
 extensions can be calibrated using similar procedure to traditional process-based
@@ -466,8 +513,16 @@ This approach is similar to the Spreadsheet Tool for the Estimation
 of Pollutant Load (STEPL) or Pollutant Load Estimation Tool (PLET) 
 used by the US EPA to estimate watershed pollutant loads and
 reductions from BMPs for grant applicants [@tetratechinc.PollutantLoadEstimation2024].
-These loadings served as inputs to a lake eutrophication model.
-This approach is fairly simple but relies on the availability of 
+PLSM uses a similar approach, but packaged within a ArcGIS based tool that was
+developed specifically for the St. Johns River Water Management District 
+[@adamusEstimatingNonpointSource1995]. 
+The model incorporates multiple spatial data layers (soil, land use, and precipitation)
+to model runoff using specified runoff coefficients.
+Spatially explicit nonpoint source runoff loads are estimated using published
+event mean concntration values for the region.
+Loading from these simplistic runoff models served as inputs to a 
+lake eutrophication model.
+These approaches are fairly simple but relies on the availability of 
 regionally appropriate nutrient runoff event mean concentrations.
 Due to its simplicity, there are a number of assumptions involved in using the 
 CN method for estimating storm-total runoff that restricts the appropriate 
@@ -487,6 +542,15 @@ which has the advantage of utilizing a Microsoft Access database structure and
 larger spatial and temporal resolutions for modelling larger watersheds.
 LSPC was used with an additional 3 TMDL assessment units. 
 
+PLSM pollutant load screening model
+
+SWAT
+
+
+HSPF, LSPC, and SWAT provide similar qualities for modelling watershed
+runoff and water quality processes. 
+
+### Receiving body models
 
 ```{r}
 ## leave in, end word document section
@@ -497,6 +561,7 @@ block_section(prop_section(type = "nextPage",
 
 # Discussion
 
+Talk about BASINS(?)
 
 # References
 
@@ -523,7 +588,7 @@ block_section(prop_section(type = "nextPage"))
 
 <!-- need to format col widths -->
 
-```{r}
+```{r message=FALSE, warning=FALSE}
 df <- read_csv("../../data/all_lake_tmdls_docs_edited.csv")
 df |> 
   distinct(action_identifier, action_name.x, TMDL_date.x, asessment_unit_identifier, document_url) |>
