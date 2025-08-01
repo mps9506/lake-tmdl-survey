@@ -468,17 +468,17 @@ tibble(Model = c("Load Duration Curve (LDC)",
                  "(EFDC)",
                  "(WASP)",
                  "(WET)"),
-       `Short Description` = c("filler",
+       `Short Description` = c("Empirical approach relating loads to percent flow exceedances. Requires daily or instantaneous streamflow conditions and grab or composite sampled pollutant concentration. This approach is only appropriate in riverine-like sections of a lake.",
+                               "Semi-empirical approach for estimating small watershed runoff in response to rainfall. CN approaches underly many of the spatially distributed watershed models. In context of TMDLs, CN is often combined with empirically derived event mean concentrations of pollutant runoff to determine watershed loading.",
+                               "Empirical approach relating response variables (pollutant or indicator) to one or multiple independent variables. Typically used to establish linkages between impairment and loadings or chlorophyll-a response to in-lake nutrient concentrations. Can be used to establish annual or daily percent load reductions.",
                                "filler",
                                "filler",
                                "filler",
+                               "Semi-distributed, daily time step process-based watershed model. Simulates hydrologic and water quality responses to changes in weather, land use, plant growth, agricultural production, and best management practices.",
                                "filler",
                                "filler",
                                "filler",
-                               "filler",
-                               "filler",
-                               "filler",
-                               "filler"),
+                               "A fully dynamic and distributed mechanistic water quality model. Simulates geochemical and ecological responses to hydrologic and nutrient inputs. Able to simulate daily, seasonal and spatial variability."),
        Reference = c("@epaApproachUsingLoad2007",
                      "@usdanrcsEstimatingRunoffVolume2021",
                      NA,
@@ -519,10 +519,10 @@ developed specifically for the St. Johns River Water Management District
 The model incorporates multiple spatial data layers (soil, land use, and precipitation)
 to model runoff using specified runoff coefficients.
 Spatially explicit nonpoint source runoff loads are estimated using published
-event mean concntration values for the region.
+event mean concentration values for the region.
 Loading from these simplistic runoff models served as inputs to a 
 lake eutrophication model.
-These approaches are fairly simple but relies on the availability of 
+These approaches are fairly simple but rely on the availability of 
 regionally appropriate nutrient runoff event mean concentrations.
 Due to its simplicity, there are a number of assumptions involved in using the 
 CN method for estimating storm-total runoff that restricts the appropriate 
@@ -544,13 +544,90 @@ LSPC was used with an additional 3 TMDL assessment units.
 
 PLSM pollutant load screening model
 
-SWAT
+SWAT was used in a single assessment unit TMDL (Figure \@ref(fig:models)). SWAT
+is a semi-distributed, process-based model that operates on daily time steps 
+[@biegerIntroductionToSWATCompletely2017]. 
+It simulates runoff hydrology and pollutant loading based on weather, erosion,
+plant growth, nutrient cycling, and agricultural yields. SWAT was developed
+by researchers at USDA and Texas A&M AgriLife specifically to simulate pollutant 
+loadings and their responses to changes in land use and best management practices.
+SWAT integrates with other models such as the MODFLO groundwater model and 
+outputs can be routed to various receiving water body models. SWAT is included
+in EPA's BASINS modelling system. A web-based modelling system called HAWQS,
+which is based on SWAT has also been developed to facilitate rapid model
+development for HUC watersheds, storing and sharing project files, and building
+modelling scenarios [@hawqs2.0HAWQSSystem202023].
+
 
 
 HSPF, LSPC, and SWAT provide similar qualities for modelling watershed
 runoff and water quality processes. 
 
 ### Receiving body models
+
+BATHTUB was the most frequently used receiving body model.
+It was primarily used in Florida to simulate steady state mean annual
+nutrient and chlorophyll-a conditions in small natural lakes.
+BATHTUB is a steady state state, semi-empirical water quality model developed
+by U.S. Army Corp of Engineers [@walkerBATHTUBVersion612006]. 
+For TMDLs, it can be used to
+predict eutrophication responses to changes in inflow and nutrient loads. The 
+BATHTUB model is best suited for relatively well-mixed, long-residence-time 
+lakes and reservoirs where water quality conditions can be reasonably 
+approximated by steady-state, spatially averaged conditions. It performs well 
+in systems that can be divided into discrete segments with varying nutrient 
+loads and inflows; such as dendritic reservoirs, embayments, or multi-basin 
+lakes and where stratification is minimal or can be simplified. BATHTUB is not 
+ideal for short-residence-time systems, strongly stratified lakes, or those 
+requiring detailed temporal dynamics, as it assumes average annual or 
+seasonal conditions rather than simulating daily or short-term changes. 
+In the observed TMDLs, BATHTUB was used to simulate responses to 
+watershed loadings derived from nearly each of the watershed modelling approaches.
+
+WET was used exclusively in New Mexico.
+WET is a fully-dynamic process based water quality model that simulates ecological
+and biogeochemical processes in aquatic systems 
+[@nielsenIntroducingQWETQGISplugin2021]. It is applicable to estuaries, 
+coastal waters and reservoirs. WET integrates hydrodynamics with nutrient 
+cycling, primary production, sediment interactions, and oxygen dynamics to 
+assess how environmental drivers and management actions influence water 
+quality and ecosystem health over time. Unlike simpler steady-state models, 
+WET operates on a fine temporal scale, allowing it to capture short-term 
+variability and seasonal dynamics. This capability makes WET suitable for
+application to stratified systems or reservoirs where temporal and
+spatial variability are particularly important. It is particularly effective 
+in systems with seasonal or episodic events like algal blooms, hypoxia, or 
+inflow-driven nutrient pulses and where interactions between hydrodynamics, 
+nutrients, sediments, and biota significantly influence water quality. 
+WET is ideal for lakes and reservoirs requiring detailed, time-varying 
+analysis of management strategies, climate effects, or ecological restoration, 
+especially where process-based simulation of nutrient cycling, dissolved oxygen, 
+and biological responses is needed. Although WET includes native integration
+with SWAT to provide nutrient loading data, the observed TMDLs utilized a 
+simplistic approach to estimate continuous nutrient loadings utilizing
+averages of grab nutrient samples and continuous inflow data.
+
+The Environmental Fluid Dynamics Code (EFDC) is a versatile, three-dimensional, 
+hydrodynamic and water quality model developed by the U.S. Environmental 
+Protection Agency to simulate physical, chemical, and biological processes in 
+surface waters [@tetratechinc.EnvironmentalFluidDynamics2007]. 
+EFDC can model a wide range of aquatic systems, including 
+rivers, lakes, reservoirs, estuaries, and coastal zones, by representing 
+complex hydrodynamics (such as stratification, mixing, tides, and currents) 
+along with water quality processes like nutrient cycling, sediment transport, 
+algal growth, and dissolved oxygen dynamics. Its modular design allows 
+integration of multiple components, including toxics, pathogens, and habitat 
+conditions. EFDC’s ability to handle three-dimensional, time-varying 
+conditions makes it particularly valuable for systems with significant 
+spatial and temporal heterogeneity. EFDC was used alone in three different 
+assessment units. However, EFDC was also utilized in coordination with the 
+WASP model in three additional assessment units. In this mode, the EFDC
+model is used to simulate hydrodynamics across space and time in either one, 
+two or three dimensions. The hydrodynamic information serves as an input to
+WASP which simulates nutrient cycling, algal dynamics, dissolved oxygen 
+fluctuations, and contaminant transport [@woolWASP8Next2020].
+
+
 
 ```{r}
 ## leave in, end word document section
