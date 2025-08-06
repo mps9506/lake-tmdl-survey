@@ -61,17 +61,14 @@ knitr::opts_chunk$set(dev = "ragg_png",
 ```
 
 
-Texas Water Resources Institute
+Texas Water Resources Institute `r officer::run_linebreak()`
+Texas A&M AgriLife`r officer::run_linebreak()`
+College Station, TX`r officer::run_linebreak()`
 
-Texas A&M AgriLife
-
-College Station, TX
-
-TR-ABCD
+for the Texas Commission on Environmental Quality.
 
 
 
-This project was funded by the Texas Commission on Environmental Quality.
 
 
 ```{r}
@@ -90,7 +87,7 @@ Table of Contents
 
 ::: {custom-style="Unnumbered Heading 1"}
 
-Table of Figures
+Figures
 
 :::
 
@@ -98,17 +95,13 @@ Table of Figures
 
 ::: {custom-style="Unnumbered Heading 1"}
 
-Table of Tables
+Tables
 
 :::
 
 <!---BLOCK_TOC{seq_id: 'tab'}--->
 
-::: {custom-style="Unnumbered Heading 1"}
 
-Abbreviations
-
-:::
 
 
 
@@ -306,7 +299,7 @@ or mechanistic, although we understand the some approaches do not cleanly fit
 in either category. 
 We describe empirical approaches as those using observed hydrologic and water 
 quality data to establish loading allocations.
-Mechnistic models on the other hand utilize some process or physically based
+Mechanistic models on the other hand utilize some process or physically based
 modelling approaches to simulate the landscape and/or hydrologic environment
 to establish responses to various pollutant inputs.
 The specific modeling approaches used in each TMDL and assessment
@@ -445,6 +438,12 @@ knitr::include_graphics("../../figures/fig5.png")
 Mechanistic models utilize process or physically based models to simulate
 pollutant transport, uptake, and degradation processes in the environment.
 Model parameters are calibrated and validated using measured data.
+While we simplified models into a binary mechanistic or empirical classification,
+in reality many modelling approaches combine aspects of both, utilizing 
+data driven statistical methods and relying on process-based approaches to
+simulate different parts of the system.
+
+
 For TMDL applications, landscape or watershed loading models that simulate 
 pollutant deposition and transport processes are often combined with a receiving
 body model that simulates the in-lake pollutant transport and uptake processes.
@@ -453,31 +452,50 @@ provide thorough overviews of watershed and water quality models
 that are useful for TMDL development.
 Our review found HSPF, PLSM, LSPC, and SWAT watershed models used by TMDLs 
 in the two regions (Figure \@ref(fig:models)).
+Receiving body, or lake models, simulate hydrodynamic and biological, and 
+chemical responses to changes in freshwater inflow and pollutant loadings.
+Different models include capabilities to simulate the responses at different
+time and spatial scales. Simple models will provide an annually averaged,
+steady-state condition for a water body. This can be suitable for 
+well-mixed lakes and 
+reservoirs where diel fluctuations and/or seasonal changes do not need to 
+be considered.
+As model complexity increases, model parameterization also increases which 
+places a larger demand on the model technician to understand both the 
+underpinnings of the modelling system, but the lake system as well.
+In turn, models are able to simulate seasonal, daily, or sub-daily responses
+to changes in pollutant loading. Furthermore, models can simulate two-
+and three-dimensional responses in lakes based on lake morphology and 
+in-lake hydrodynamic processes.
+Temporal and spatial considerations become increasingly important in systems
+where inflow and pollutant loadings fluctuate seasonally, or in systems where
+stratification/turnover, seasonal drawdowns, and related processes have significant
+impact on nutrient cycling and export.
 
 <!---BLOCK_LANDSCAPE_START--->
 
-```{r}
+```{r tab.cap='Short descriptions and documentation sources for model approaches identified during the TMDL review.', tab.id='models'}
 tibble(Model = c("Load Duration Curve (LDC)",
                  "Curve Number (CN)",
                  "Regression",
-                 "(HSPF)",
-                 "(LSPC)",
-                 "(PLSM)",
-                 "(SWAT)",
+                 "Hydrological Simulation Program - FORTRAN (HSPF)",
+                 "Loading Simulation Program C++ (LSPC)",
+                 "Pollutant Load Screening Model (PLSM)",
+                 "Soil and Water Assessment Tool (SWAT)",
                  "BATHTUB",
-                 "(EFDC)",
-                 "(WASP)",
-                 "(WET)"),
+                 "Environmental Fluid Dynamics Code (EFDC)",
+                 "Water Quality Anlysis Simulation Program (WASP)",
+                 "Water Ecostysems Tool (WET)"),
        `Short Description` = c("Empirical approach relating loads to percent flow exceedances. Requires daily or instantaneous streamflow conditions and grab or composite sampled pollutant concentration. This approach is only appropriate in riverine-like sections of a lake.",
-                               "Semi-empirical approach for estimating small watershed runoff in response to rainfall. CN approaches underly many of the spatially distributed watershed models. In context of TMDLs, CN is often combined with empirically derived event mean concentrations of pollutant runoff to determine watershed loading.",
+                               "Semi-empirical approach for estimating small watershed runoff in response to rainfall. CN approaches underly many of the spatially distributed watershed models. In context of TMDLs, CN is often combined with empirically derived event-mean concentrations of pollutant runoff to determine watershed loading.",
                                "Empirical approach relating response variables (pollutant or indicator) to one or multiple independent variables. Typically used to establish linkages between impairment and loadings or chlorophyll-a response to in-lake nutrient concentrations. Can be used to establish annual or daily percent load reductions.",
-                               "filler",
-                               "filler",
-                               "filler",
+                               "Semi-distributed process-based watershed model used to simulate hydrology and water quality in urban and rural environments. Can be used as a steady-state or temporally dynamic model. Includes the ability to simulate loading responses to various BMPs.",
+                               "Underlying algorithms based on HSPF but built on C++. Integrates with Microsoft Access database structures, allows larger spatial and temporal resolutions than HSPF.",
+                               "Semi-empirical, spatially explicit approach for estimating watershed level annualized loads based on event-mean concentrations and runoff coeffcicients. Restricted to estimations of mean annualized loads.",
                                "Semi-distributed, daily time step process-based watershed model. Simulates hydrologic and water quality responses to changes in weather, land use, plant growth, agricultural production, and best management practices.",
-                               "filler",
-                               "filler",
-                               "filler",
+                               "Semi-empirical model used to predict steady-state conditions in response to changes in inflow and nutrient loads. Suitable for well-mixed lakes and reservoirs without strong temporal or spatial dynamics.",
+                               "A fully dynamic three-dimensional hydrodynamic model that includes capability to simulate physical, chemical, and biological water quality processes. Able to simulate daily, seasonal and spatial variability. Hydrodynamic outputs are often used as inputs to the WASP model.",
+                               "A mass-balance based mathematical model that predicts dissolved oxygen, nutrient, and phytoplankton responses to time variable loadings and system hydrodynamics. Able to simulate sub-daily, daily, and longer time steps and multiple spatial resolutions and dimensions. Well suited for complex systems, typically linked to watershed loading and hydrodynamic models.",
                                "A fully dynamic and distributed mechanistic water quality model. Simulates geochemical and ecological responses to hydrologic and nutrient inputs. Able to simulate daily, seasonal and spatial variability."),
        Reference = c("@epaApproachUsingLoad2007",
                      "@usdanrcsEstimatingRunoffVolume2021",
@@ -501,37 +519,52 @@ tibble(Model = c("Load Duration Curve (LDC)",
 ### Watershed models
 
 The NRCS Curve Number (CN) method was used in a handful of TMDLs.
-The CN method might be better classified as an empirical approach,
+The CN method might be better classified as an empirical approach
 but was included under this section since the CN method and its various
 extensions can be calibrated using similar procedure to traditional process-based
 models.
 In the TMDLs applying the CN method, the CN method was used to estimate
-watershed runoff volume. Regionally developed runoff event mean
+watershed runoff volume. Regionally developed runoff event-mean
 concentrations for nitrogen and phosphorus were multiplied to the runoff volumes
 to develop estimates of total watershed loading.
 This approach is similar to the Spreadsheet Tool for the Estimation
 of Pollutant Load (STEPL) or Pollutant Load Estimation Tool (PLET) 
 used by the US EPA to estimate watershed pollutant loads and
 reductions from BMPs for grant applicants [@tetratechinc.PollutantLoadEstimation2024].
-PLSM uses a similar approach, but packaged within a ArcGIS based tool that was
+
+The Pollutant Load Screening Model (PLSM) uses a similar approach, 
+but packaged within a ArcGIS based tool that was
 developed specifically for the St. Johns River Water Management District 
 [@adamusEstimatingNonpointSource1995]. 
 The model incorporates multiple spatial data layers (soil, land use, and precipitation)
 to model runoff using specified runoff coefficients.
 Spatially explicit nonpoint source runoff loads are estimated using published
-event mean concentration values for the region.
+event-mean concentration values for the region.
+The literature on PLSM did not make clear how the model is calibrated or
+validated against field data.
 Loading from these simplistic runoff models served as inputs to a 
 lake eutrophication model.
 These approaches are fairly simple but rely on the availability of 
-regionally appropriate nutrient runoff event mean concentrations.
+regionally appropriate nutrient runoff event-mean concentrations.
 Due to its simplicity, there are a number of assumptions involved in using the 
 CN method for estimating storm-total runoff that restricts the appropriate 
 usage of this approach.
 For example, the watershed should be less than 2,000 acres and
 contain generally uniform land use, soil and cover [@usdanrcsEstimatingRunoffVolume2021].
+Spatial resolutions of these models are limited to subwatershed boundaries. 
+The strength of these approaches are simplicity and ease of integration into existing GIS 
+tools and databases. The Spatially Explicit Load Enrichment Calculation Tool (SELECT),
+commonly used in Texas for watershed planning purposes, utilizes a similar
+simple GIS-based approach for allocating loads across watersheds and sources 
+[@teagueSpatiallyExplicitLoad2009]. 
+These approaches do assume loadings based on empirically derived event-mean concentrations 
+at temporal resolution that are only appropriate for steady-state modeling or
+waterbodies where seasonal or diel fluctuations are not expected. PLSM was often
+an input to the BATHTUB water quality model that also predicts steady-state
+water quality conditions in the receiving water body.
 
-HSPF was the most commonly used watershed model identified (6 assessment units, 
-Figure \@ref(fig:models)).  HSPF is a semi-distributed, process based model that
+HSPF was the most utilized watershed model (6 assessment units, 
+Figure \@ref(fig:models)).  HSPF is a semi-distributed, process-based model that
 simulates both hydrology and water quality in urban and rural watersheds. 
 Some of the advantages of HSPF include its flexibility to be run as a static or 
 dynamic model, ability to assess impacts of BMPs, and ease of integration with 
@@ -541,8 +574,6 @@ HSPF but changes the underlying programming architecture from FORTRAN to C++,
 which has the advantage of utilizing a Microsoft Access database structure and 
 larger spatial and temporal resolutions for modelling larger watersheds.
 LSPC was used with an additional 3 TMDL assessment units. 
-
-PLSM pollutant load screening model
 
 SWAT was used in a single assessment unit TMDL (Figure \@ref(fig:models)). SWAT
 is a semi-distributed, process-based model that operates on daily time steps 
@@ -560,15 +591,14 @@ modelling scenarios [@hawqs2.0HAWQSSystem202023].
 
 
 
-HSPF, LSPC, and SWAT provide similar qualities for modelling watershed
-runoff and water quality processes. 
+
 
 ### Receiving body models
 
 BATHTUB was the most frequently used receiving body model.
-It was primarily used in Florida to simulate steady state mean annual
+It was primarily used in Florida to simulate steady-state mean annual
 nutrient and chlorophyll-a conditions in small natural lakes.
-BATHTUB is a steady state state, semi-empirical water quality model developed
+BATHTUB is a steady-state state, semi-empirical water quality model developed
 by U.S. Army Corp of Engineers [@walkerBATHTUBVersion612006]. 
 For TMDLs, it can be used to
 predict eutrophication responses to changes in inflow and nutrient loads. The 
@@ -585,7 +615,7 @@ In the observed TMDLs, BATHTUB was used to simulate responses to
 watershed loadings derived from nearly each of the watershed modelling approaches.
 
 WET was used exclusively in New Mexico.
-WET is a fully-dynamic process based water quality model that simulates ecological
+WET is a fully dynamic process-based water quality model that simulates ecological
 and biogeochemical processes in aquatic systems 
 [@nielsenIntroducingQWETQGISplugin2021]. It is applicable to estuaries, 
 coastal waters and reservoirs. WET integrates hydrodynamics with nutrient 
@@ -621,11 +651,12 @@ conditions. EFDC’s ability to handle three-dimensional, time-varying
 conditions makes it particularly valuable for systems with significant 
 spatial and temporal heterogeneity. EFDC was used alone in three different 
 assessment units. However, EFDC was also utilized in coordination with the 
-WASP model in three additional assessment units. In this mode, the EFDC
-model is used to simulate hydrodynamics across space and time in either one, 
+WASP model in three additional assessment units. When coordinated, the EFDC
+model is typically used to simulate hydrodynamics across space and time in either one, 
 two or three dimensions. The hydrodynamic information serves as an input to
 WASP which simulates nutrient cycling, algal dynamics, dissolved oxygen 
-fluctuations, and contaminant transport [@woolWASP8Next2020].
+fluctuations, and contaminant transport [@woolWASP8Next2020]. EPA's BASINS
+modeling systems includes plugins to support WASP and more recently EFDCPlus.
 
 
 
@@ -638,7 +669,77 @@ block_section(prop_section(type = "nextPage",
 
 # Discussion
 
-Talk about BASINS(?)
+There are numerous options for quantifying watershed runoff loads.
+Data availability, watershed characteristics,  receiving water body 
+characteristics, and planning needs can help guide modelling approaches.
+For example, simple regression approaches (WRTDS, GAMs) can be utilized to
+estimate daily nutrient loads in watersheds when there are strategically located 
+stream gages near the watershed outlet and co-located pollutant samples. 
+These approaches perform best with a long data record and most importantly 
+flow-dependent and/or storm-biased samples that capture the flow-related 
+variability for in-stream pollutant concentrations.
+Additionally, regression approaches are useful for establishing 
+statistically defined linkages between pollutant loadings and in-lake
+water quality conditions or responses.
+However, in absence of strong evidence, one should be cautious about extrapolating 
+typical regression model results outside of observed values. 
+Therefore, using the models to predict
+responses in loading to best management practices, major changes in hydrology,
+or other unobserved scenarios can be a challenge.
+
+Mechanistic watershed models such as HSPF, LSPC, and SWAT rely on simulating
+the physical processes in runoff, infiltration, geochemistry, and other
+environmental and anthropogenic influences.
+The relative advantages of these models include being able to simulate
+scenarios that have not been observed in the watershed, predict responses
+to BMP scenarios, and being able to fit reasonable models without a long data 
+record. However, these models do require more data in regards to soil types,
+land cover, agricultural uses, weather, and other variables that are used
+to drive the simulation. The models also have numerous parameters that
+can be leverged to calibrate the models, which necessitate technicians that
+have strong understanding of the the underlying model processes.
+Technical and computing improvements have simplified gathering and formatting of the input data
+for these models. Furthermore, new approaches that leverage machine learning and
+other algorithms for calibrating models have increased capacity to rapidly
+calibrate and validate these complex models. However, with these approaches 
+there is a danger of achieving a good model fit with the 
+incorrect model parameters, leading to 
+incorrect predictions during unobserved scenarios. 
+For reservoirs where steady-state conditions are of interest, simple semi-empirical
+models such as CN or PLSM might be sufficient, but modelling watershed response to
+management changes will remain challenging with semi-empirical approaches.
+
+Similar predictive needs drive the decisions for appropriate receiving body
+models. BATHTUB is a relatively simplistic semi-empirical model well suited
+to simulate steady-state conditions where temporal or spatial dynamics
+are not of primary interest. EFDC and WASP are employed as system
+complexity increases or impairments are seasonally and temporally variable due
+to complex hydrodynamics, reservoir stratification, or other periodic drivers
+of nutrient input and cycling.
+
+Successful TMDL development hinges on stakeholder trust in the processes, data, 
+and products used to develop the load allocations and scenarios for load reductions.
+Simplified modelling approaches are attractive due to ease of both deployment
+and communicating results to stakeholders, reduced data collection needs,
+reduced budgets, and less time spent developing models 
+[@zhangSimpleModelsAnalytical2019]. However the trade offs for simplicity can
+include inaccurate load estimates, ineffective management strategies, or 
+unrealistic expectations for water quality improvement. 
+A single modelling approach for all water bodies should not be expected,
+instead the TMDL process can integrate phased approaches that move to more 
+complex model frameworks as more data and information about the system is 
+gathered [@chapraEngineeringWaterQuality2003; @zhangSimpleModelsAnalytical2019].
+
+
+
+
+## Other Models
+
+Talk about BASINS(?) https://link.springer.com/chapter/10.1007/978-0-387-09722-0_18
+
+## Data Needs
+
+## Model Coordination
 
 # References
 
