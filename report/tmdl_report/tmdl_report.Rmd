@@ -4,7 +4,7 @@ author:
   - Michael Schramm ^1^, Lucas Gregory ^2^
   - ^1^ Research Specialist, Texas Water Resources Institute, Texas A\&M AgriLife Research
   - ^2^ Associate Director, Texas Water Resources Institute, Texas A\&M AgriLife Research
-date: "April 1, 2021"
+date: "August 2025"
 output: 
   officedown::rdocx_document:
     reference_docx: format.docx
@@ -375,18 +375,18 @@ normalized nutrient loads or in lake nutrient concentration and chlorophyll-a
 
 
 Regression models were observed in 15 assessment units and load duration curves
-(LDCs) were observed in five assessment units. 
+(LDCs) were observed in five assessment units (Figure \@ref(fig:models)). 
 Note that LDCs are most appropriate for lotic waters where load allocations can
 be estimated based on the cumulative frequency of daily streamflows and
 in-stream pollutant concentrations.
 The observed LDCs occurred in assessment units that were more geomorphologically
 similar to rivers than to traditional lentic systems and were applied to 
-bacteria impairments presumed to be hydrologically driven, similar to the Lake 
+bacteria impairments presumed to be hydrologically driven (Figure \@ref(fig:modparams)), similar to the Lake 
 Houston TMDL in Texas [@tceqSevenTotalMaximum2016].
 
 Regression models were used exclusively in small lakes in Florida and applied 
 to achieve the state's site-specific narrative nutrient 
-criteria using annual chlorophyll-a geometric means as a target.
+criteria using annual chlorophyll-a geometric means as a target (Figure \@ref(fig:modparams)).
 Simple linear regressions models were applied to establish relationships between 
 the lakes annual geometric mean concentrations and chlorophyll-a concentrations.
 Multiple regression models using log-transformed annual geometric 
@@ -422,14 +422,14 @@ block_section(prop_section(type = "nextPage",
 
 
 
-```{r models, fig.cap="Models...", fig.alt="Alternative text for screen readers", fig.width=10, fig.height=5, fig.dpi=300, out.width="100%"}
+```{r models, fig.cap="Counts of (A) emprical models, (B) watershed models, and (C) receiving body models by assessment unit. The assessment unit count of receiving body and watershed model combinations (D), NA indicates no model.", fig.alt="Alternative text for screen readers", fig.width=10, fig.height=5, fig.dpi=300, out.width="100%"}
 knitr::include_graphics("../../figures/fig4.png")
 ```
 
 
 <!---BLOCK_LANDSCAPE_STOP--->
 
-```{r modparams, fig.cap="Models...", fig.alt="Alternative text for screen readers", fig.width=6, fig.height=4, fig.dpi=300}
+```{r modparams, fig.cap="The count of distinct models used for each endpoint parameter.", fig.alt="Alternative text for screen readers", fig.width=6, fig.height=4, fig.dpi=300}
 knitr::include_graphics("../../figures/fig5.png")
 ```
 
@@ -595,9 +595,9 @@ modelling scenarios [@hawqs2.0HAWQSSystem202023].
 
 ### Receiving body models
 
-BATHTUB was the most frequently used receiving body model.
+BATHTUB was the most frequently used receiving body model (Figure \@ref(fig:models)).
 It was primarily used in Florida to simulate steady-state mean annual
-nutrient and chlorophyll-a conditions in small natural lakes.
+nutrient and chlorophyll-a conditions in small natural lakes (Figure \@ref(fig:modparams).
 BATHTUB is a steady-state state, semi-empirical water quality model developed
 by U.S. Army Corp of Engineers [@walkerBATHTUBVersion612006]. 
 For TMDLs, it can be used to
@@ -612,9 +612,11 @@ ideal for short-residence-time systems, strongly stratified lakes, or those
 requiring detailed temporal dynamics, as it assumes average annual or 
 seasonal conditions rather than simulating daily or short-term changes. 
 In the observed TMDLs, BATHTUB was used to simulate responses to 
-watershed loadings derived from nearly each of the watershed modelling approaches.
+watershed loadings derived from nearly each of the watershed modelling 
+approaches.
 
-WET was used exclusively in New Mexico.
+WET was used exclusively in New Mexico in four different assessment units 
+to model total nitrogen and total phosphorus endpoints (Figure \@ref(fig:models); \@ref(fig:modparams)).
 WET is a fully dynamic process-based water quality model that simulates ecological
 and biogeochemical processes in aquatic systems 
 [@nielsenIntroducingQWETQGISplugin2021]. It is applicable to estuaries, 
@@ -650,8 +652,11 @@ integration of multiple components, including toxics, pathogens, and habitat
 conditions. EFDC’s ability to handle three-dimensional, time-varying 
 conditions makes it particularly valuable for systems with significant 
 spatial and temporal heterogeneity. EFDC was used alone in three different 
-assessment units. However, EFDC was also utilized in coordination with the 
-WASP model in three additional assessment units. When coordinated, the EFDC
+assessment units to directly model dissolved oxygen 
+endpoints ((Figure \@ref(fig:models); \@ref(fig:modparams)).
+However, EFDC was also utilized in coordination with the 
+WASP model in three additional assessment units to model chlorophyl-a endpoints. 
+In this fashion the EFDC
 model is typically used to simulate hydrodynamics across space and time in either one, 
 two or three dimensions. The hydrodynamic information serves as an input to
 WASP which simulates nutrient cycling, algal dynamics, dissolved oxygen 
@@ -683,6 +688,9 @@ statistically defined linkages between pollutant loadings and in-lake
 water quality conditions or responses.
 However, in absence of strong evidence, one should be cautious about extrapolating 
 typical regression model results outside of observed values. 
+@tredennickPracticalGuideSelecting2021 provide further discussion on different 
+apporaches for utilizing
+and designing regression models for inference or prediction.
 Therefore, using the models to predict
 responses in loading to best management practices, major changes in hydrology,
 or other unobserved scenarios can be a challenge.
@@ -717,6 +725,12 @@ complexity increases or impairments are seasonally and temporally variable due
 to complex hydrodynamics, reservoir stratification, or other periodic drivers
 of nutrient input and cycling.
 
+## Logistical Constraints in Model Selection
+
+There is rarely a single best model to use for TMDL development. Model
+selection is often a compromise based on budget and time, data availability,
+site-specific domain expertise, and model defensibility 
+[@sridharanSelectingReliableModels2021]. 
 Successful TMDL development hinges on stakeholder trust in the processes, data, 
 and products used to develop the load allocations and scenarios for load reductions.
 Simplified modelling approaches are attractive due to ease of both deployment
@@ -730,16 +744,27 @@ instead the TMDL process can integrate phased approaches that move to more
 complex model frameworks as more data and information about the system is 
 gathered [@chapraEngineeringWaterQuality2003; @zhangSimpleModelsAnalytical2019].
 
+EPA introduced the Better Assessment Science Integrating Point and Nonpoint Sources 
+(BASINS) analysis system to support watershed studies and TMDL development
+by the states. BASINS includes routinely used data layers, formatting tools, 
+and several watershed and receiving body models [@kinersonBASINSBetterAssessment2009].
+Models and data included in BASINS are well supported by EPA and routinely used
+in TMDLs. Models that are not currently included in BASINS (such as WET) may
+require additional review and effort to provide a defensible use case over well-accepted
+models.
+
+Finally, when choosing models, data, and assumptions some 
+consideration of model approaches currently used for water quality permitting
+also needs to be made. Allowable permitted point-source loads that have been
+determined based on different modelling approaches may end up drastically 
+different under different TMDL models, model assumptions, or calibration/validation data.
+Disagreement between model results can reduce stakeholder confidence and could 
+increase the chance for legal challenges or litigation about the validity
+of loading allocations. Close coordination between modelers in both groups
+will be needed to validate model assumptions and potentially verify and explain
+differences in model results should the need arise.
 
 
-
-## Other Models
-
-Talk about BASINS(?) https://link.springer.com/chapter/10.1007/978-0-387-09722-0_18
-
-## Data Needs
-
-## Model Coordination
 
 # References
 

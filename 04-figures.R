@@ -97,6 +97,17 @@ ggsave("fig1.png",
 
 ## size of distinct assessment units and watersheds
 
+df |>
+  distinct(asessment_unit_identifier, surface_area, watershed_area) |>
+  summarise(min = min(surface_area, na.rm = TRUE),
+            max = max(surface_area, na.rm = TRUE))
+
+df |>
+  distinct(asessment_unit_identifier, surface_area, watershed_area) |>
+  summarise(min = min(watershed_area, na.rm = TRUE),
+            max = max(watershed_area, na.rm = TRUE))
+
+
 p2a <- df |>
   distinct(asessment_unit_identifier, surface_area, watershed_area) |>
   ggplot() +
